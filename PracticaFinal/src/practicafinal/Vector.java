@@ -2,8 +2,10 @@
 package practicafinal;
 
 /**
- *
- * @author Felix
+ * Clase Vector, permite la creacion de vectores y las operaciones con ellos.
+ * 
+ * @author Felix Lluis Aguilar Ferrer
+ * @author Adrián Bennasar Polzin
  */
 public class Vector {
     
@@ -99,11 +101,13 @@ public class Vector {
      * 
      * @param k 
      */
-    public void lim(double k){//comparacion falta.
-         Vector v = new Vector(this.x, this.y);
-         v = v.uni();
-         v.mult(k);
-         this.x = v.getX();
-         this.y = v.getY();
+    public void lim(double k){
+        Vector v = new Vector(this.x, this.y);
+        if(v.mod() > k){
+            v = v.uni();
+            v.mult(k);
+            this.x = v.getX();
+            this.y = v.getY();
+        }
     }
 }
