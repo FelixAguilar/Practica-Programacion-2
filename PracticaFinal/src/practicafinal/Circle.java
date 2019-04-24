@@ -80,7 +80,7 @@ public class Circle {
     }
     
     
-    
+    /*
     public void updfall(){//Modeificar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         if ((acceleration.getY() + position.getY()) > Window.sizey){
@@ -96,6 +96,7 @@ public class Circle {
         }
         
     }
+    */
     
     public void updfollowmouse(){
         

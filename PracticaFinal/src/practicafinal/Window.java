@@ -2,7 +2,9 @@ package practicafinal;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.*;
 
 /**
@@ -12,8 +14,12 @@ import javax.swing.*;
 public class Window extends JFrame{
     
     //Tamaño de la venta.
-    public static int sizex = 600;
-    public static int sizey = 400;
+    
+        Toolkit miPantalla = Toolkit.getDefaultToolkit(); // Obtenemos herramientas necesarias para comunicarnos con el sistema donde se ejecuta la ventana
+        Dimension tamanoPantalla = miPantalla.getScreenSize(); // Creamos un objeto Dimension con el tamaño de nuestra pantalla
+        
+        int alturaPantalla = tamanoPantalla.height; // Guardamos las constantes que se han registrado en el objeto Dimension
+        int anchoPantalla = tamanoPantalla.width;
     
     //Titulo de la ventana.
     public String title = "Balls Simulation";
@@ -23,9 +29,10 @@ public class Window extends JFrame{
     
     //Constructor de la ventana.
     public Window(){
-        this.setSize(sizex, sizey);
+        
         this.setTitle(title);
-        this.setLocationByPlatform(rootPaneCheckingEnabled);
+        this.setSize(anchoPantalla/2,alturaPantalla/2);
+        this.setLocation(anchoPantalla/4, alturaPantalla/4);
         this.setDefaultCloseOperation(Window.EXIT_ON_CLOSE);
         this.initContents();
     }
