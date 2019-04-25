@@ -64,7 +64,6 @@ public class Window extends JFrame{
         JPanel zone1 = new JPanel();
         zone1.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         zone1.add(menu, BorderLayout.CENTER);
-        menu.setBackground(Color.red);
         screen.add(zone1, BorderLayout.LINE_END);
     }
     

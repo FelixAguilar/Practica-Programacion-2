@@ -14,13 +14,30 @@ import javax.swing.JPanel;
  * @author Felix
  */
 public class CirclePanel extends JPanel implements MouseMotionListener {
+    
+    public Circle[] ballscollection; //Deberia ser privado.
 
     public CirclePanel() {
         
         
         
-       // Declarar l'interés pels esdeveniments propis de la rata
+       // Declarar l'interés pels esdeveniments propis de la ratoli
        this.addMouseMotionListener(this);
+    }
+    
+    public Circle[] resize (String s){
+        
+        int n = Integer.parseInt(s);
+                
+        Circle[] c = new Circle[n];
+        
+        Vector v = new Vector (0,0);
+        
+        for(int i = n; i > 0; i--){
+            c[i] = new Circle(v,v,v);
+        }
+        
+        return c;
     }
 
     @Override
