@@ -73,6 +73,14 @@ public class Window extends JFrame{
         //Revisar nombres variables esto funciona gg.
         CirclePanel cp = new CirclePanel();
         screen.add(cp, BorderLayout.CENTER);
+        
+        num.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) { 
+                cp.setsize(cp.getSize());
+                cp.setBallscollection(cp.resize(num.getText()));
+            }
+        });
+        
     }
     
     public static void main(String[] args) {

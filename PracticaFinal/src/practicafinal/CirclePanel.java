@@ -6,8 +6,12 @@
 package practicafinal;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.Random;
 import javax.swing.JPanel;
 
 /**
@@ -16,16 +20,47 @@ import javax.swing.JPanel;
  */
 public class CirclePanel extends JPanel implements MouseMotionListener {
     
-    public Circle[] ballscollection; //Deberia ser privado.
+    private Circle[] ballscollection; //Deberia ser privado.
+    private Dimension size;
+
+    public Dimension getsize() {
+        return size;
+    }
+
+    public void setsize(Dimension size) {
+        this.size = size;
+    }
+
+    public Circle[] getBallscollection() {
+        return ballscollection;
+    }
+
+    public void setBallscollection(Circle[] ballscollection) {
+        this.ballscollection = ballscollection;
+    }
 
     public CirclePanel() {
         
-       
         
-       //ballscollection = resize("2");
+       ballscollection = resize("4"); 
+       
         
        // Declarar l'interés pels esdeveniments propis de la ratoli
        this.addMouseMotionListener(this);
+    }
+    
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);//Para evitar errores aleatorios.
+        
+        Graphics2D g2 = (Graphics2D) g;
+        
+        for(int i = 0; i < ballscollection.length; i++){
+            g2.draw(ballscollection[i].getShape());
+            g2.setPaint(ballscollection[i].getColor());
+            g2.fill(ballscollection[i].getShape()); 
+        }
+        this.repaint();
     }
     
     public Circle[] resize (String s){
@@ -33,12 +68,16 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
         int n = Integer.parseInt(s);
                 
         Circle[] c = new Circle[n];
+        Random rand = new Random();
+        Vector v = new Vector (rand.nextDouble((double) size.width), rand.nextDouble((double) size.height)); //error revisr randoms.
         
-        Vector v = new Vector (0,0);
+//        Vector w = new Vector (60,60);
         
-        for(int i = n; i > 0; i--){
+        for(int i = n-1; i >= 0; i--){
             c[i] = new Circle(v,v,v);
         }
+//        c[0] = new Circle(v,v,v);
+//        c[1] = new Circle(w,v,v);
         
         return c;
     }
