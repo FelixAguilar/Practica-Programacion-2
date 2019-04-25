@@ -65,6 +65,10 @@ public class Window extends JFrame{
         zone1.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         zone1.add(menu, BorderLayout.CENTER);
         screen.add(zone1, BorderLayout.LINE_END);
+        
+        //Revisar nombres variables esto funciona gg.
+        CirclePanel cp = new CirclePanel();
+        screen.add(cp, BorderLayout.CENTER);
     }
     
     public static void main(String[] args) {

@@ -5,6 +5,7 @@
  */
 package practicafinal;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
@@ -19,7 +20,9 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
 
     public CirclePanel() {
         
+        this.setBackground(Color.red);
         
+       //ballscollection = resize("2");
         
        // Declarar l'interés pels esdeveniments propis de la ratoli
        this.addMouseMotionListener(this);
