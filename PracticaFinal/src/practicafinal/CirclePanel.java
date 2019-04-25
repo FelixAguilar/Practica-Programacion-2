@@ -20,7 +20,7 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
 
     public CirclePanel() {
         
-        this.setBackground(Color.red);
+       
         
        //ballscollection = resize("2");
         

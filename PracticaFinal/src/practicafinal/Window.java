@@ -52,18 +52,22 @@ public class Window extends JFrame{
         num.setFont(f);
         num.setHorizontalAlignment(SwingConstants.RIGHT);
         menu.add(num);
+        menu.setBackground(Color.LIGHT_GRAY);
+       
         
         //Los checkbox para modificar el programa.
         JCheckBox walls = new JCheckBox("With Walls");
         menu.add(walls);
+        walls.setBackground(Color.LIGHT_GRAY);
         JCheckBox follow = new JCheckBox("Follow Mouse");
         menu.add(follow);
-                
+        follow.setBackground(Color.LIGHT_GRAY);        
         //Layout principal.
         JPanel screen = (JPanel) getContentPane();
         JPanel zone1 = new JPanel();
         zone1.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         zone1.add(menu, BorderLayout.CENTER);
+        zone1.setBackground(Color.LIGHT_GRAY);
         screen.add(zone1, BorderLayout.LINE_END);
         
         //Revisar nombres variables esto funciona gg.
