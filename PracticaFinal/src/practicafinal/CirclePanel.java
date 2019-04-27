@@ -5,7 +5,6 @@
  */
 package practicafinal;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -20,32 +19,16 @@ import javax.swing.JPanel;
  */
 public class CirclePanel extends JPanel implements MouseMotionListener {
     
-    private Circle[] ballscollection; //Deberia ser privado.
+    private Circle[] ballsCollection; //Deberia ser privado.
     private Dimension size;
-
-    public Dimension getsize() {
-        return size;
-    }
-
-    public void setsize(Dimension size) {
-        this.size = size;
-    }
-
-    public Circle[] getBallscollection() {
-        return ballscollection;
-    }
-
-    public void setBallscollection(Circle[] ballscollection) {
-        this.ballscollection = ballscollection;
-    }
 
     public CirclePanel() {
         
-        
-       ballscollection = resize("4"); 
+        size = this.getSize();
+        ballsCollection = resize("1"); 
        
         
-       // Declarar l'interés pels esdeveniments propis de la ratoli
+        // Declarar l'interés pels esdeveniments propis de la ratoli
        this.addMouseMotionListener(this);
     }
     
@@ -55,10 +38,8 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
         
         Graphics2D g2 = (Graphics2D) g;
         
-        for(int i = 0; i < ballscollection.length; i++){
-            g2.draw(ballscollection[i].getShape());
-            g2.setPaint(ballscollection[i].getColor());
-            g2.fill(ballscollection[i].getShape()); 
+        for(int i = 0; i < ballsCollection.length; i++){
+            ballsCollection[i].paint(g2);
         }
         this.repaint();
     }
@@ -69,17 +50,29 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
                 
         Circle[] c = new Circle[n];
         Random rand = new Random();
-        Vector v = new Vector (rand.nextDouble((double) size.width), rand.nextDouble((double) size.height)); //error revisr randoms.
-        
-//        Vector w = new Vector (60,60);
         
         for(int i = n-1; i >= 0; i--){
+            Vector v = new Vector (rand.nextDouble() * size.width, rand.nextDouble() * size.height);
             c[i] = new Circle(v,v,v);
         }
-//        c[0] = new Circle(v,v,v);
-//        c[1] = new Circle(w,v,v);
         
         return c;
+    }
+    
+    public Dimension getsize() {
+        return size;
+    }
+
+    public void setsize(Dimension size) {
+        this.size = size;
+    }
+
+    public Circle[] getBallscollection() {
+        return ballsCollection;
+    }
+
+    public void setBallscollection(Circle[] ballscollection) {
+        this.ballsCollection = ballscollection;
     }
 
     @Override
