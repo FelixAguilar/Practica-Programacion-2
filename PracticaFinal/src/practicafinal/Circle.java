@@ -38,12 +38,6 @@ public class Circle {
         this.speed = speed;
         this.acceleration = acceleration;
     }
-    
-    public void paint(Graphics2D g2){
-        g2.draw(this.shape);
-        g2.setPaint(this.color);
-        g2.fill(this.shape); 
-    }
 
     public Shape getShape() {
         return shape;
@@ -83,5 +77,33 @@ public class Circle {
 
     public void setAcceleration(Vector acceleration) {
         this.acceleration = acceleration;
-    }   
+    }
+    
+    
+    /*
+    public void updfall(){//Modeificar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        if ((acceleration.getY() + position.getY()) > Window.sizey){
+            acceleration.setY(0);
+        }else{
+            acceleration.setY(50);
+        }
+        
+        if((acceleration.getX() + position.getX()) > Window.sizex){
+            acceleration.setX(0);
+        }else{
+            acceleration.setX(10);
+        }
+        
+    }
+    */
+    
+    public void updfollowmouse(){
+        
+    }
+    
+    
+    
+    
+    
 }
