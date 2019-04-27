@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -12,6 +14,8 @@ import javax.swing.*;
  * @author Felix
  */
 public class Window extends JFrame{
+    
+    static CirclePanel cp;
     
     //Tamaño de la venta.
     
@@ -49,6 +53,7 @@ public class Window extends JFrame{
         menu.add(info);
         JTextField num = new JTextField();
         num.setText("2"); 
+        num.selectAll();
         num.setFont(f);
         num.setHorizontalAlignment(SwingConstants.RIGHT);
         menu.add(num);
@@ -71,12 +76,40 @@ public class Window extends JFrame{
         screen.add(zone1, BorderLayout.LINE_END);
         
         //Revisar nombres variables esto funciona gg.
-        CirclePanel cp = new CirclePanel();
+       
         screen.add(cp, BorderLayout.CENTER);
+        
+        
+        num.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) { 
+                cp.setsize(cp.getSize());
+                cp.setBallscollection(cp.resize(num.getText()));
+            }
+        });
+        
+        follow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) { 
+                cp.checkFollow = follow.isSelected();
+            }
+        });
+        
+        walls.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) { 
+                cp.checkWalls = walls.isSelected();
+            }
+        });
+        
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
+        cp = new CirclePanel();
         new Window().setVisible(true);
+        try {
+            cp.infiniteLoop();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }

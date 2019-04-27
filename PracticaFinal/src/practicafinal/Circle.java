@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class Circle {
     
-    private final Double Diameter = 50.0;
+    private final Double diameter = 50.0;
     private Shape shape;
     private Color color;
     private Vector position;
@@ -32,12 +32,49 @@ public class Circle {
         this.color = new Color(r, g ,b);
 
         //Forma del circulo.
-        this.shape = new Ellipse2D.Double(position.getX(), position.getY(), this.Diameter, this.Diameter);
+        this.shape = new Ellipse2D.Double(position.getX(), position.getY(), this.diameter, this.diameter);
         
         this.position = position;
         this.speed = speed;
         this.acceleration = acceleration;
     }
+    
+    public void paint(Graphics2D g2){
+        this.shape = new Ellipse2D.Double(position.getX(), position.getY(), this.diameter, this.diameter);
+        g2.draw(this.shape);
+        g2.setPaint(this.color);
+        g2.fill(this.shape); 
+       
+    }
+    
+    public void reposition(Dimension size, boolean x, boolean y){
+        if (position.getX() > size.width) {
+            position.setX(-diameter);
+        }
+        if (position.getY() > size.height) {
+            position.setY(-diameter); 
+        }
+        if (position.getX() < -diameter) {
+            position.setX(size.width);
+        }
+        if (position.getY() < -diameter) {
+            position.setY(size.height); 
+        }
+   
+        if (x) {
+            if (y) {
+                
+            }else{
+                
+            }
+        }else{
+            if (y) {
+                
+            }else{
+                position.add(speed);
+            }
+        }
+   }
 
     public Shape getShape() {
         return shape;
@@ -77,33 +114,5 @@ public class Circle {
 
     public void setAcceleration(Vector acceleration) {
         this.acceleration = acceleration;
-    }
-    
-    
-    /*
-    public void updfall(){//Modeificar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        
-        if ((acceleration.getY() + position.getY()) > Window.sizey){
-            acceleration.setY(0);
-        }else{
-            acceleration.setY(50);
-        }
-        
-        if((acceleration.getX() + position.getX()) > Window.sizex){
-            acceleration.setX(0);
-        }else{
-            acceleration.setX(10);
-        }
-        
-    }
-    */
-    
-    public void updfollowmouse(){
-        
-    }
-    
-    
-    
-    
-    
+    }   
 }
