@@ -1,6 +1,8 @@
 
 package practicafinal;
 
+import exceptions.DivisionByZero;
+
 /**
  * Clase Vector, permite la creacion de vectores y las operaciones con ellos.
  * 
@@ -9,27 +11,11 @@ package practicafinal;
  */
 public class Vector {
     
-    private double x; //Cordenada X del vector.
-    private double y; //Cordenada Y del vector.
+    public double x; //Cordenada X del vector.
+    public double y; //Cordenada Y del vector.
 
     public Vector(double x, double y) {
         this.x = x;
-        this.y = y;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
         this.y = y;
     }
     
@@ -39,8 +25,8 @@ public class Vector {
      * @param v 
      */
     public void add(Vector v){
-        this.x = this.x + v.getX();
-        this.y = this.y + v.getY();
+        this.x = this.x + v.x;
+        this.y = this.y + v.y;
     }
     
     /**
@@ -49,8 +35,8 @@ public class Vector {
      * @param v 
      */
     public void sub(Vector v){
-        this.x = this.x - v.getX();
-        this.y = this.y - v.getY();
+        this.x = this.x - v.x;
+        this.y = this.y - v.y;
     }
     
     /**
@@ -67,8 +53,12 @@ public class Vector {
      * Permite dividir el vector por un escalar.
      *  
      * @param k 
+     * @throws exceptions.DivisionByZero 
      */
-    public void div(double k){
+    public void div(double k) throws DivisionByZero { 
+        if (k == 0) {
+            throw new DivisionByZero();
+        }
         this.x = this.x / k;
         this.y = this.y / k;
     }
@@ -87,12 +77,12 @@ public class Vector {
      * Devuelve el vector unitario del vector.
      * 
      * @return 
+     * @throws exceptions.DivisionByZero 
      */
-    public Vector uni(){
+    public Vector uni() throws DivisionByZero{
         Vector v = new Vector(this.x, this.y);
         double n = v.mod();
-        v.setX(v.getX() / n);
-        v.setY(v.getY() / n);
+        v.div(n);
         return v;
     }
     
@@ -100,14 +90,15 @@ public class Vector {
      * Impone el numero introducido a la magnitud del vector.
      * 
      * @param k 
+     * @throws exceptions.DivisionByZero 
      */
-    public void lim(double k){
+    public void lim(double k) throws DivisionByZero{
         Vector v = new Vector(this.x, this.y);
         if(v.mod() > k){
             v = v.uni();
             v.mult(k);
-            this.x = v.getX();
-            this.y = v.getY();
+            this.x = v.x;
+            this.y = v.y;
         }
     }
 }

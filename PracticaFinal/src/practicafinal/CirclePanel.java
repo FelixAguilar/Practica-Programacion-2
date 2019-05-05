@@ -65,13 +65,9 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
         int n = Integer.parseInt(s);
                 
         Circle[] c = new Circle[n];
-        Random rand = new Random();
-        
-        Vector w = new Vector(10,5);
-        
+
         for(int i = n-1; i >= 0; i--){
-            Vector v = new Vector (rand.nextDouble() * size.width, rand.nextDouble() * size.height);
-            c[i] = new Circle(v,w,v);
+            c[i] = new Circle(this);
         }
         
         return c;
