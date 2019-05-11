@@ -67,7 +67,7 @@ public class Circle {
         position.add(speed);
         speed.add(acceleration);
         try {
-            speed.lim(8);
+            speed.lim(10);
         } catch (DivisionByZero ex) {
             Logger.getLogger(Circle.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -75,11 +75,19 @@ public class Circle {
     
     public void fallingAcceleration(){
         acceleration.x = 0;
-        acceleration.y = 0.1;
+        acceleration.y = 0.05;
     }
     
-    public void mouseAcceleration(){
-        
+    public void mouseAcceleration(Vector mouse) throws DivisionByZero{
+        Vector i = new Vector(mouse.x, mouse.y);
+        Vector j = new Vector(position.x, position.y);
+        j.x = j.x + diameter/2;
+        j.y = j.y + diameter/2;
+        i.sub(j);
+        i = i.uni();
+        i.mult(0.2);
+        acceleration.x = i.x;
+        acceleration.y = i.y;
     }
     
     

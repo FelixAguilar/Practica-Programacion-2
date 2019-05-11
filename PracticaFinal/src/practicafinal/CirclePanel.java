@@ -1,5 +1,6 @@
 package practicafinal;
 
+import exceptions.DivisionByZero;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -20,7 +21,7 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
     public boolean follow;
 
     public CirclePanel() {
-        
+       mousePosition = new Vector(0,0);
         // Declarar l'interés pels esdeveniments propis de la ratoli
        this.addMouseMotionListener(this);
     }
@@ -37,7 +38,7 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
         this.repaint();
     }
     
-    public void infiniteLoop() throws InterruptedException{
+    public void infiniteLoop() throws InterruptedException, DivisionByZero{
         
         boolean end = false;
         while(!end){
@@ -46,13 +47,13 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
                 ballsCollection[i].movement();
                 ballsCollection[i].interactionWithWalls(getSize(), walls);
                 if (follow){
-                    
+                    ballsCollection[i].mouseAcceleration(mousePosition);
                 }else{
                     ballsCollection[i].fallingAcceleration();
                 }
                 
             }
-            
+            System.out.println(mousePosition.x + " " + mousePosition.y);
             this.repaint();
             Thread.sleep(10);
         }
@@ -83,12 +84,14 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
     public void mouseDragged(MouseEvent mouse) {
         mousePosition.x = mouse.getX();
         mousePosition.y = mouse.getY();
+        //System.out.println(mousePosition.x + " " + mousePosition.y);
     }
 
     @Override
     public void mouseMoved(MouseEvent mouse) {
         mousePosition.x = mouse.getX();
         mousePosition.y = mouse.getY();
+        //System.out.println(mousePosition.x + " " + mousePosition.y);
     }
     
 }

@@ -1,5 +1,6 @@
 package practicafinal;
 
+import exceptions.DivisionByZero;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -120,7 +121,7 @@ public class Window extends JFrame{
         
     }
     
-    public void start() throws InterruptedException{
+    public void start() throws InterruptedException, DivisionByZero{
          circlePanel.setBallscollection(circlePanel.resize(textField.getText()));
          
          //Inicio movimiento círculos.
@@ -133,7 +134,7 @@ public class Window extends JFrame{
         try {
            w.setVisible(true);
            w.start();
-        } catch (InterruptedException ex) {
+        } catch (InterruptedException | DivisionByZero ex) {
             Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
         }
         
