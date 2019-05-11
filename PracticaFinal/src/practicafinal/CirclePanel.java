@@ -1,34 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practicafinal;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.util.Random;
 import javax.swing.JPanel;
 
 /**
  *
- * @author Felix
+ * @author Felix Lluis Aguilar Ferrer
+ * @author Adrián Bennasar Polzin
  */
 public class CirclePanel extends JPanel implements MouseMotionListener {
     
-    private Circle[] ballsCollection; //Deberia ser privado.
-    boolean checkFollow;
-    boolean checkWalls;
-    private Dimension size;
+    private Circle[] ballsCollection;
+    private Vector mousePosition;
+    
+    public boolean walls;
+    public boolean follow;
 
     public CirclePanel() {
-        
-        size = this.getSize();
-        ballsCollection = resize("1"); 
-       
         
         // Declarar l'interés pels esdeveniments propis de la ratoli
        this.addMouseMotionListener(this);
@@ -52,9 +43,16 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
         while(!end){
          
             for (int i = 0; i < ballsCollection.length; i++) {
-                ballsCollection[i].reposition(size,checkFollow,checkWalls);
+                ballsCollection[i].movement();
+                ballsCollection[i].interactionWithWalls(getSize(), walls);
+                if (follow){
+                    
+                }else{
+                    ballsCollection[i].fallingAcceleration();
+                }
+                
             }
-            size = getSize();
+            
             this.repaint();
             Thread.sleep(10);
         }
@@ -67,18 +65,10 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
         Circle[] c = new Circle[n];
 
         for(int i = n-1; i >= 0; i--){
-            c[i] = new Circle(this);
+            c[i] = new Circle(getSize());
         }
         
         return c;
-    }
-    
-    public Dimension getsize() {
-        return size;
-    }
-
-    public void setsize(Dimension size) {
-        this.size = size;
     }
 
     public Circle[] getBallscollection() {
@@ -90,13 +80,15 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseDragged(MouseEvent mouse) {
+        mousePosition.x = mouse.getX();
+        mousePosition.y = mouse.getY();
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseMoved(MouseEvent mouse) {
+        mousePosition.x = mouse.getX();
+        mousePosition.y = mouse.getY();
     }
     
 }

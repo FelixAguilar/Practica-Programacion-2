@@ -18,15 +18,21 @@ import javax.swing.SwingConstants;
 
 
 /**
- *
- * @author Felix
+ * Programa principal.
+ * 
+ * @author Felix Lluis Aguilar Ferrer
+ * @author Adrián Bennasar Polzin
  */
 public class Window extends JFrame{
     
-    static CirclePanel cp;
+    private CirclePanel circlePanel;
+    private JTextField textField;
+    private JCheckBox walls;
+    private JCheckBox follow;
     
     //Tamaño de la venta.
-        // Obtenemos herramientas necesarias para comunicarnos con el sistema donde se ejecuta la ventana.
+        // Obtenemos herramientas necesarias para comunicarnos con el sistema 
+        //donde se ejecuta la ventana.
         // Creamos un objeto Dimension con el tamaño de nuestra pantalla
         Toolkit myScreen = Toolkit.getDefaultToolkit(); 
         Dimension screenSize = myScreen.getScreenSize(); 
@@ -66,7 +72,7 @@ public class Window extends JFrame{
         menu.add(label);
         
         //Creación del cuadro de texto.
-        JTextField textField = new JTextField();
+        textField = new JTextField();
         textField.setText("2"); 
         textField.selectAll();
         textField.setFont(font);
@@ -89,35 +95,44 @@ public class Window extends JFrame{
         sidePanel.add(menu, BorderLayout.CENTER);
         
         //Adición de componentes a la pantalla.
-        cp = new CirclePanel(); //Instanciación del panel de círculos.
-        window.add(cp, BorderLayout.CENTER);
+        circlePanel = new CirclePanel(); //Instanciación del panel de círculos.
+        window.add(circlePanel, BorderLayout.CENTER);
         window.add(sidePanel, BorderLayout.LINE_END);
         
+        //Escuchadores de eventos.
         textField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) { 
-                cp.setBallscollection(cp.resize(textField.getText()));
+                circlePanel.setBallscollection(circlePanel.resize(textField.getText()));
             }
         });
         
         follow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) { 
-                cp.checkFollow = follow.isSelected();
+               circlePanel.follow = follow.isSelected();
             }
         });
         
         walls.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) { 
-                cp.checkWalls = walls.isSelected();
+                circlePanel.walls = walls.isSelected();
             }
         });
         
     }
     
+    public void start() throws InterruptedException{
+         circlePanel.setBallscollection(circlePanel.resize(textField.getText()));
+         
+         //Inicio movimiento círculos.
+         circlePanel.infiniteLoop();
+    }
+    
     public static void main(String[] args)  {
         
-        new Window().setVisible(true);
+        Window w = new Window();
         try {
-            cp.infiniteLoop(); //Inicio movimiento círculos.
+           w.setVisible(true);
+           w.start();
         } catch (InterruptedException ex) {
             Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
         }

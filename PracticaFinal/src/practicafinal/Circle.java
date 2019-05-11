@@ -5,9 +5,12 @@
  */
 package practicafinal;
 
+import exceptions.DivisionByZero;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,7 +25,7 @@ public class Circle {
     private Vector speed;
     private Vector acceleration;
 
-    public Circle(CirclePanel cp) {
+    public Circle(Dimension panelSize) {
        
         //Generacion del color al azar.
         Random rand = new Random();
@@ -31,8 +34,14 @@ public class Circle {
         float b = rand.nextFloat();
         this.color = new Color(r, g ,b);
         
-        this.position = new Vector(rand.nextDouble() * cp.getSize().width, rand.nextDouble() * cp.getSize().height);
-        this.speed = new Vector(0,0);
+        this.position = new Vector(rand.nextDouble() * panelSize.width, rand.nextDouble() * panelSize.height);
+        if(position.x > (double) panelSize.width - diameter){
+            position.x = position.x - diameter;
+        }
+        if(position.y > (double) panelSize.height - diameter){
+            position.y = position.y - diameter;
+        }
+        this.speed = new Vector(rand.nextDouble()*2*Math.pow(-1, rand.nextInt(2)),rand.nextDouble()*2*Math.pow(-1, rand.nextInt(2)));
         this.acceleration = new Vector(0,0);
         
         //Forma del circulo.
@@ -42,10 +51,10 @@ public class Circle {
     }
     
     public void paint(Graphics2D g2){
-        RenderingHints rh = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING, 
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setRenderingHints(rh);
+//        RenderingHints rh = new RenderingHints(
+//                RenderingHints.KEY_ANTIALIASING, 
+//                RenderingHints.VALUE_ANTIALIAS_ON);
+//        g2.setRenderingHints(rh);
         this.shape = new Ellipse2D.Double(position.x, position.y, this.diameter, this.diameter);
         g2.draw(this.shape);
         g2.setPaint(this.color);
@@ -53,34 +62,57 @@ public class Circle {
        
     }
     
-    public void reposition(Dimension size, boolean x, boolean y){
-        if (position.x > size.width) {
-            position.x = -diameter;
+    public void movement(){
+        
+        position.add(speed);
+        speed.add(acceleration);
+        try {
+            speed.lim(8);
+        } catch (DivisionByZero ex) {
+            Logger.getLogger(Circle.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (position.y > size.height) {
-            position.y = -diameter; 
-        }
-        if (position.x < -diameter) {
-            position.x = size.width;
-        }
-        if (position.y < -diameter) {
-            position.y = size.height; 
-        }
-   
-        if (x) {
-            if (y) {
-                
-            }else{
-                
+    }
+    
+    public void fallingAcceleration(){
+        acceleration.x = 0;
+        acceleration.y = 0.1;
+    }
+    
+    public void mouseAcceleration(){
+        
+    }
+    
+    
+    public void interactionWithWalls(Dimension size, boolean walls){
+        
+        if (!walls) {
+            if (position.x > size.width) {
+                position.x = -diameter;
+            }
+            if (position.y > size.height) {
+                position.y = -diameter; 
+            }
+            if (position.x < -diameter) {
+                position.x = size.width;
+            }
+            if (position.y < -diameter) {
+                position.y = size.height; 
             }
         }else{
-            if (y) {
-                
-            }else{
-                position.add(speed);
+            if (position.x + diameter > size.width) {
+                speed.x = -speed.x;
+            }
+            if (position.y + diameter > size.height) {
+                speed.y = -speed.y; 
+            }
+            if (position.x < 0) {
+                speed.x = -speed.x;
+            }
+            if (position.y < 0) {
+                speed.y = -speed.y; 
             }
         }
-   }
+    }
 
     public Shape getShape() {
         return shape;
