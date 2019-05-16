@@ -1,3 +1,8 @@
+/**
+ * @author Felix Lluis Aguilar Ferrer.
+ * @author Adrián Bennasar Polzin.
+ */
+
 package practicafinal;
 
 import exceptions.DivisionByZero;

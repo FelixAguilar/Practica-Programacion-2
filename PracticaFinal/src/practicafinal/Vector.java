@@ -1,25 +1,33 @@
+/**
+ * @author Felix Lluis Aguilar Ferrer.
+ * @author Adrián Bennasar Polzin.
+ */
+
 package practicafinal;
 
 import exceptions.DivisionByZero;
 
 /**
- * Clase Vector, permite la creacion de vectores y las operaciones con ellos.
- * 
- * @author Felix Lluis Aguilar Ferrer
- * @author Adrián Bennasar Polzin
+ * Clase Vector. Permite la creacion de vectores y las operaciones con ellos.
  */
 public class Vector {
     
     public double x; //Cordenada X del vector.
     public double y; //Cordenada Y del vector.
 
+    /**
+     * Constructor.
+     * 
+     * @param x
+     * @param y 
+     */
     public Vector(double x, double y) {
         this.x = x;
         this.y = y;
     }
     
     /**
-     * Permite realizar la suma de dos vectores.
+     * Método que realiza la suma de dos vectores.
      *  
      * @param v 
      */
@@ -29,7 +37,7 @@ public class Vector {
     }
     
     /**
-     * Permite realizar la resta de dos vectores.
+     * Método que realiza la resta de dos vectores.
      *  
      * @param v 
      */
@@ -39,7 +47,7 @@ public class Vector {
     }
     
     /**
-     * Permite multiplicar el vector por un escalar.
+     * Método que realiza la multiplicación el vector por un escalar.
      *  
      * @param k 
      */
@@ -49,7 +57,7 @@ public class Vector {
     }
     
     /**
-     * Permite dividir el vector por un escalar.
+     * Método que realiza la división del vector por un escalar.
      *  
      * @param k 
      * @throws exceptions.DivisionByZero 
@@ -63,7 +71,7 @@ public class Vector {
     }
     
     /**
-     * Devuelve el modulo (magnitud) del vector.
+     * Método que devuelve el modulo (magnitud) del vector.
      * 
      * @return 
      */
@@ -73,7 +81,7 @@ public class Vector {
     }
     
     /**
-     * Devuelve el vector unitario del vector.
+     * Método que devuelve el vector unitario del vector.
      * 
      * @return 
      * @throws exceptions.DivisionByZero 
@@ -86,7 +94,7 @@ public class Vector {
     }
     
     /**
-     * Impone el numero introducido a la magnitud del vector.
+     * Método que impone el número introducido a la magnitud del vector.
      * 
      * @param k 
      * @throws exceptions.DivisionByZero 

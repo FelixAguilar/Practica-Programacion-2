@@ -1,159 +1,196 @@
+/**
+ * @author Felix Lluis Aguilar Ferrer.
+ * @author Adrián Bennasar Polzin.
+ */
+
 package practicafinal;
 
 import exceptions.DivisionByZero;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
- * @author Felix
+ * Concepto círculo. Contiene la definicion de que es un círculo, aparte de los
+ * metodos que representan su comportamiento.
  */
 public class Circle {
     
-    private final Double diameter = 50.0;
+    //Constantes.
+    private final Double DIAMETER = 50.0;
+    private final int MAXSPEED = 5;
+    private final Vector FALLACCELERATION = new Vector(0, 0.05);
+    private final Double MOUSEACCELERATION = 0.12;
+    
+    //Atributos del concepto.
     private Shape shape;
     private Color color;
     private Vector position;
     private Vector speed;
     private Vector acceleration;
 
+    
+    /**
+     * Constructor. Requiere el tamaño del panel donde se representará el
+     * concepto.
+     * 
+     * @param panelSize
+     */
     public Circle(Dimension panelSize) {
        
-        //Generacion del color al azar.
+        //Genera el color del circulo al azar.
         Random rand = new Random();
         float r = rand.nextFloat();
         float g = rand.nextFloat();
         float b = rand.nextFloat();
-        this.color = new Color(r, g ,b);
+        color = new Color(r, g ,b);
         
-        this.position = new Vector(rand.nextDouble() * panelSize.width, rand.nextDouble() * panelSize.height);
-        if(position.x > (double) panelSize.width - diameter){
-            position.x = position.x - diameter;
+        /*Genera la posición inicial del círculo dentro de los limites del panel
+        al azar. Si la posición del círculo es critica (parte del círculo se 
+        dibuja fuera del panel), entonces se reajusta su posición restandole el 
+        diàmetro del círculo.*/
+        this.position = new Vector(rand.nextDouble() * panelSize.width,
+                rand.nextDouble() * panelSize.height);
+        if(position.x > (double) panelSize.width - DIAMETER){
+            position.x = position.x - DIAMETER;
         }
-        if(position.y > (double) panelSize.height - diameter){
-            position.y = position.y - diameter;
+        if(position.y > (double) panelSize.height - DIAMETER){
+            position.y = position.y - DIAMETER;
         }
-        this.speed = new Vector(rand.nextDouble()*2*Math.pow(-1, rand.nextInt(2)),rand.nextDouble()*2*Math.pow(-1, rand.nextInt(2)));
-        this.acceleration = new Vector(0,0);
         
-        //Forma del circulo.
-        this.shape = new Ellipse2D.Double(position.x, position.y, this.diameter, this.diameter);
+        /*Genera una velocidad inicial al azar dentro del limite de velocidad 
+        impuesto por la constante. Además se multiplica esa velocidad por (-1)^n 
+        donde n puede ser 0 o 1 al azar.*/
+        speed = new Vector(rand.nextDouble() * MAXSPEED * 
+                Math.pow(-1,rand.nextInt(2)), rand.nextDouble() * MAXSPEED * 
+                Math.pow(-1, rand.nextInt(2)));
         
+        //No hay aceleración inicial.
+        acceleration = new Vector(0,0);
         
+        //Genera la forma inicial del círculo junto con su posicion inicial.
+        shape = new Ellipse2D.Double(position.x,position.y,DIAMETER,DIAMETER);
     }
     
+    /**
+     * Método para pintar un circulo.
+     * 
+     * @param g2 
+     */
     public void paint(Graphics2D g2){
+        
+        /*Utilización de la clase RenderingHints para mejorar la calidad del 
+        renderizado del dibujo mediante el antialiasing.*/
         RenderingHints rh = new RenderingHints(
                 RenderingHints.KEY_ANTIALIASING, 
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHints(rh);
-        this.shape = new Ellipse2D.Double(position.x, position.y, this.diameter, this.diameter);
-        g2.draw(this.shape);
+        
+        /*Impone el color del círculo actual y se dibuja y rellena utilizando
+        este color.*/
         g2.setPaint(this.color);
+        g2.draw(this.shape);
         g2.fill(this.shape); 
-       
     }
     
-    public void movement(){
-        
+    /**
+     * Método para realizar el movimiento del círculo. Realiza un cambio en la 
+     * velocidad del círculo en funcion de la aceleración actual y a partir de 
+     * esta nueva velocidad realiza un avance en la posición.
+     * 
+     * @throws exceptions.DivisionByZero
+     */
+    public void movement() throws DivisionByZero{
         
         speed.add(acceleration);
         position.add(speed);
-        try {
-            speed.lim(5);
-        } catch (DivisionByZero ex) {
-            Logger.getLogger(Circle.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        //Se limita la velocidad maxima a la indicada por la constante.
+        speed.lim(MAXSPEED);
+        
+        //Se actualiza el objeto shape con el vector posición.
+        shape = new Ellipse2D.Double(position.x,position.y,DIAMETER,DIAMETER);
     }
     
+    /**
+     * Método de aceleración en caida. Impone la acceleracion del círculo con la 
+     * constante.
+     */
     public void fallingAcceleration(){
-        acceleration.x = 0;
-        acceleration.y = 0.05;
+        acceleration.x = FALLACCELERATION.x;
+        acceleration.y = FALLACCELERATION.y;
     }
     
+    /**
+     * Método de aceleración con ratón. Se actualiza la aceleracion dependiendo 
+     * de la posicion del círculo respecto al ratón.
+     * 
+     * @param mouse
+     * @throws DivisionByZero 
+     */
     public void mouseAcceleration(Vector mouse) throws DivisionByZero{
+        
+        /*Se generan dos vectores que representan las cordenadas del ratón y del 
+        círculo, a este último se le suma el radio para obtener las cordenadas 
+        de éste desde el centro.*/
         Vector i = new Vector(mouse.x, mouse.y);
         Vector j = new Vector(position.x, position.y);
-        j.x = j.x + diameter/2;
-        j.y = j.y + diameter/2;
+        j.x = j.x + DIAMETER/2;
+        j.y = j.y + DIAMETER/2;
+        
+        /*Se obtiene el vector distancia entre ratón y círculo, a continuación 
+        se normaliza y después es multiplicado por una constante.*/
         i.sub(j);
         i = i.uni();
-        i.mult(0.2);
+        i.mult(MOUSEACCELERATION);
+        
+        //Se actualiza la aceleración del circulo.
         acceleration.x = i.x;
         acceleration.y = i.y;
     }
     
-    
+    /**
+     * Método de interacción con bordes. En este caso, hay límites que impiden 
+     * al círculo salir del panel por lo que al interactuar con uno de estos, 
+     * cambiará el signo de su velocidad en el eje indicado.
+     * 
+     * @param size 
+     */
     public void interactionWithWalls(Dimension size){
-            if (position.x > size.width) {
-                position.x = -diameter;
-            }
-            if (position.y > size.height) {
-                position.y = -diameter; 
-            }
-            if (position.x < -diameter) {
-                position.x = size.width;
-            }
-            if (position.y < -diameter) {
-                position.y = size.height; 
-            }
+        if (position.y + DIAMETER > size.height){
+            speed.y = -speed.y; 
+        }
+        if (position.y < 0){
+            speed.y = -speed.y; 
+        }
+        if (position.x + DIAMETER > size.width){
+            speed.x = -speed.x;
+        }
+        if (position.x < 0){
+            speed.x = -speed.x;
+        }
     }
     
+    /**
+     * Método de interacción sin paredes. En este caso, no hay límites que 
+     * impiden al círculo salir del panel por lo que al interactuar con uno de 
+     * estos, cambiará la posicion en el eje de manera que saldrá por el borde 
+     * opuesto.
+     * 
+     * @param size 
+     */
     public void interactionWithoutWalls(Dimension size){
-        if (position.x + diameter > size.width) {
-            speed.x = -speed.x;
+        if (position.x > size.width){
+            position.x = -DIAMETER;
         }
-        if (position.y + diameter > size.height) {
-            speed.y = -speed.y; 
+        if (position.y > size.height){
+            position.y = -DIAMETER; 
         }
-        if (position.x < 0) {
-            speed.x = -speed.x;
+        if (position.x < -DIAMETER){
+            position.x = size.width;
         }
-        if (position.y < 0) {
-            speed.y = -speed.y; 
+        if (position.y < -DIAMETER){
+            position.y = size.height; 
         }
-    }
-
-    public Shape getShape() {
-        return shape;
-    }
-
-    public void setShape(Shape shape) {
-        this.shape = shape;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public Vector getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector position) {
-        this.position = position;
-    }
-
-    public Vector getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(Vector speed) {
-        this.speed = speed;
-    }
-
-    public Vector getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration(Vector acceleration) {
-        this.acceleration = acceleration;
     }   
 }

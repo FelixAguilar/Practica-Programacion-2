@@ -1,3 +1,7 @@
+/**
+ * @author Felix Lluis Aguilar Ferrer.
+ * @author Adrián Bennasar Polzin.
+ */
 package practicafinal;
 
 import exceptions.DivisionByZero;
@@ -21,15 +25,11 @@ import javax.swing.SwingConstants;
 /**
  * Programa principal.
  * 
- * @author Felix Lluis Aguilar Ferrer
- * @author Adrián Bennasar Polzin
  */
 public class Window extends JFrame{
     
     private CirclePanel circlePanel;
     private JTextField textField;
-    private JCheckBox walls;
-    private JCheckBox follow;
     
     //Tamaño de la venta.
         // Obtenemos herramientas necesarias para comunicarnos con el sistema 
