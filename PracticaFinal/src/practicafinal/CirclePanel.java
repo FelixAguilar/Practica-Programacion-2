@@ -16,9 +16,8 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
     
     private Circle[] ballsCollection;
     private Vector mousePosition;
-    
-    public boolean walls;
-    public boolean follow;
+    private boolean walls;
+    private boolean follow;
 
     public CirclePanel() {
        mousePosition = new Vector(0,0);
@@ -45,7 +44,11 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
          
             for (int i = 0; i < ballsCollection.length; i++) {
                 ballsCollection[i].movement();
-                ballsCollection[i].interactionWithWalls(getSize(), walls);
+                if (walls){
+                    ballsCollection[i].interactionWithWalls(getSize());
+                }else{
+                    ballsCollection[i].interactionWithoutWalls(getSize());
+                }
                 if (follow){
                     ballsCollection[i].mouseAcceleration(mousePosition);
                 }else{
@@ -53,7 +56,6 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
                 }
                 
             }
-            System.out.println(mousePosition.x + " " + mousePosition.y);
             this.repaint();
             Thread.sleep(10);
         }
@@ -80,18 +82,34 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
         this.ballsCollection = ballscollection;
     }
 
+    public boolean isWalls() {
+        return walls;
+    }
+
+    public void setWalls(boolean walls) {
+        this.walls = walls;
+    }
+
+    public boolean isFollow() {
+        return follow;
+    }
+
+    public void setFollow(boolean follow) {
+        this.follow = follow;
+    }
+    
+    
+
     @Override
     public void mouseDragged(MouseEvent mouse) {
         mousePosition.x = mouse.getX();
         mousePosition.y = mouse.getY();
-        //System.out.println(mousePosition.x + " " + mousePosition.y);
     }
 
     @Override
     public void mouseMoved(MouseEvent mouse) {
         mousePosition.x = mouse.getX();
         mousePosition.y = mouse.getY();
-        //System.out.println(mousePosition.x + " " + mousePosition.y);
     }
     
 }

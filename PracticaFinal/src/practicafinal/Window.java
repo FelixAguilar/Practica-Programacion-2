@@ -109,13 +109,13 @@ public class Window extends JFrame{
         
         follow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) { 
-               circlePanel.follow = follow.isSelected();
+               circlePanel.setFollow(follow.isSelected());
             }
         });
         
         walls.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) { 
-                circlePanel.walls = walls.isSelected();
+                circlePanel.setWalls(walls.isSelected());
             }
         });
         

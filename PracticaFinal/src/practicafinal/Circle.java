@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package practicafinal;
 
 import exceptions.DivisionByZero;
@@ -51,10 +46,10 @@ public class Circle {
     }
     
     public void paint(Graphics2D g2){
-//        RenderingHints rh = new RenderingHints(
-//                RenderingHints.KEY_ANTIALIASING, 
-//                RenderingHints.VALUE_ANTIALIAS_ON);
-//        g2.setRenderingHints(rh);
+        RenderingHints rh = new RenderingHints(
+                RenderingHints.KEY_ANTIALIASING, 
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHints(rh);
         this.shape = new Ellipse2D.Double(position.x, position.y, this.diameter, this.diameter);
         g2.draw(this.shape);
         g2.setPaint(this.color);
@@ -64,10 +59,11 @@ public class Circle {
     
     public void movement(){
         
-        position.add(speed);
+        
         speed.add(acceleration);
+        position.add(speed);
         try {
-            speed.lim(10);
+            speed.lim(5);
         } catch (DivisionByZero ex) {
             Logger.getLogger(Circle.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -91,9 +87,7 @@ public class Circle {
     }
     
     
-    public void interactionWithWalls(Dimension size, boolean walls){
-        
-        if (!walls) {
+    public void interactionWithWalls(Dimension size){
             if (position.x > size.width) {
                 position.x = -diameter;
             }
@@ -106,19 +100,20 @@ public class Circle {
             if (position.y < -diameter) {
                 position.y = size.height; 
             }
-        }else{
-            if (position.x + diameter > size.width) {
-                speed.x = -speed.x;
-            }
-            if (position.y + diameter > size.height) {
-                speed.y = -speed.y; 
-            }
-            if (position.x < 0) {
-                speed.x = -speed.x;
-            }
-            if (position.y < 0) {
-                speed.y = -speed.y; 
-            }
+    }
+    
+    public void interactionWithoutWalls(Dimension size){
+        if (position.x + diameter > size.width) {
+            speed.x = -speed.x;
+        }
+        if (position.y + diameter > size.height) {
+            speed.y = -speed.y; 
+        }
+        if (position.x < 0) {
+            speed.x = -speed.x;
+        }
+        if (position.y < 0) {
+            speed.y = -speed.y; 
         }
     }
 
