@@ -8,7 +8,7 @@ package practicafinal;
 import exceptions.DivisionByZero;
 
 /**
- * Clase Vector. Permite la creacion de vectores y las operaciones con ellos.
+ * Clase Vector. Permite la creación de vectores y las operaciones con ellos.
  */
 public class Vector {
     
@@ -47,7 +47,7 @@ public class Vector {
     }
     
     /**
-     * Método que realiza la multiplicación el vector por un escalar.
+     * Método que realiza la multiplicación del vector por un escalar.
      *  
      * @param k 
      */
@@ -71,7 +71,7 @@ public class Vector {
     }
     
     /**
-     * Método que devuelve el modulo (magnitud) del vector.
+     * Método que devuelve el módulo (magnitud) del vector.
      * 
      * @return 
      */

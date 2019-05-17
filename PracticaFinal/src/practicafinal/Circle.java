@@ -6,13 +6,14 @@
 package practicafinal;
 
 import exceptions.DivisionByZero;
+
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 /**
  * Concepto círculo. Contiene la definicion de que es un círculo, aparte de los
- * metodos que representan su comportamiento.
+ * métodos que representan su comportamiento.
  */
 public class Circle {
     
@@ -47,7 +48,7 @@ public class Circle {
         
         /*Genera la posición inicial del círculo dentro de los limites del panel
         al azar. Si la posición del círculo es critica (parte del círculo se 
-        dibuja fuera del panel), entonces se reajusta su posición restandole el 
+        dibuja fuera del panel), entonces se reajusta su posición restándole el 
         diàmetro del círculo.*/
         this.position = new Vector(rand.nextDouble() * panelSize.width,
                 rand.nextDouble() * panelSize.height);
@@ -68,12 +69,12 @@ public class Circle {
         //No hay aceleración inicial.
         acceleration = new Vector(0,0);
         
-        //Genera la forma inicial del círculo junto con su posicion inicial.
+        //Genera la forma inicial del círculo junto con su posición inicial.
         shape = new Ellipse2D.Double(position.x,position.y,DIAMETER,DIAMETER);
     }
     
     /**
-     * Método para pintar un circulo.
+     * Método para pintar un círculo.
      * 
      * @param g2 
      */
@@ -95,7 +96,7 @@ public class Circle {
     
     /**
      * Método para realizar el movimiento del círculo. Realiza un cambio en la 
-     * velocidad del círculo en funcion de la aceleración actual y a partir de 
+     * velocidad del círculo en función de la aceleración actual y a partir de 
      * esta nueva velocidad realiza un avance en la posición.
      * 
      * @throws exceptions.DivisionByZero
@@ -105,15 +106,15 @@ public class Circle {
         speed.add(acceleration);
         position.add(speed);
         
-        //Se limita la velocidad maxima a la indicada por la constante.
+        //Se limita la velocidad máxima a la indicada por la constante.
         speed.lim(MAXSPEED);
         
-        //Se actualiza el objeto shape con el vector posición.
+        //Se actualiza el objeto Shape con el vector posición.
         shape = new Ellipse2D.Double(position.x,position.y,DIAMETER,DIAMETER);
     }
     
     /**
-     * Método de aceleración en caida. Impone la acceleracion del círculo con la 
+     * Método de aceleración en caida. Impone la aceleración del círculo con la 
      * constante.
      */
     public void fallingAcceleration(){
@@ -130,9 +131,9 @@ public class Circle {
      */
     public void mouseAcceleration(Vector mouse) throws DivisionByZero{
         
-        /*Se generan dos vectores que representan las cordenadas del ratón y del 
-        círculo, a este último se le suma el radio para obtener las cordenadas 
-        de éste desde el centro.*/
+        /*Se generan dos vectores que representan las coordenadas del ratón y 
+        del círculo, a este último se le suma el radio para obtener las 
+        coordenadas de éste desde el centro.*/
         Vector i = new Vector(mouse.x, mouse.y);
         Vector j = new Vector(position.x, position.y);
         j.x = j.x + DIAMETER/2;

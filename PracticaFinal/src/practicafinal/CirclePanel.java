@@ -6,6 +6,7 @@
 package practicafinal;
 
 import exceptions.DivisionByZero;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -13,40 +14,61 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 
 /**
- *
- * @author Felix Lluis Aguilar Ferrer
- * @author Adrián Bennasar Polzin
+ * Concepto panel de círculos. Contiene los atributos que definen a un panel de 
+ * círculos, junto a los métodos que definen su comportamiento.
  */
 public class CirclePanel extends JPanel implements MouseMotionListener {
     
+    //Atributos del concepto.
     private Circle[] ballsCollection;
     private Vector mousePosition;
     private boolean walls;
     private boolean follow;
 
+    /**
+     * Constructor.
+     */
     public CirclePanel() {
-       mousePosition = new Vector(0,0);
-        // Declarar l'interés pels esdeveniments propis de la ratoli
-       this.addMouseMotionListener(this);
+        
+        //Añadimos el escuchador del ratón al panel.
+        this.addMouseMotionListener(this);
+        mousePosition = new Vector(0,0);
     }
     
+    /**
+     * Método para dibujar los elementos del panel.
+     * 
+     * @param g 
+     */
     @Override
     public void paintComponent(Graphics g){
-        super.paintComponent(g);//Para evitar errores aleatorios.
+        
+        /*Instrucción que invoca a las operaciones del paintComponent 
+        proporcionado por Oracle.*/
+        super.paintComponent(g);
         
         Graphics2D g2 = (Graphics2D) g;
-        
         for(int i = 0; i < ballsCollection.length; i++){
             ballsCollection[i].paint(g2);
         }
+        
+        //Llama al método paintComponent.
         this.repaint();
     }
     
+    /**
+     * Método bucle infinito. Realiza los cálculos para el reposicionamiento de
+     * los círculos dentro del panel teniendo en cuenta los valores de los
+     * atributos boolean correspondientes.
+     * 
+     * @throws InterruptedException
+     * @throws DivisionByZero 
+     */
     public void infiniteLoop() throws InterruptedException, DivisionByZero{
-        
-        boolean end = false;
-        while(!end){
-         
+        while(true){
+            
+            /*Recorrido del array de círculos, actualizando el círculo al que
+            corresponde el indice de cada iteración.*/
             for (int i = 0; i < ballsCollection.length; i++) {
                 ballsCollection[i].movement();
                 if (walls){
@@ -58,63 +80,57 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
                     ballsCollection[i].mouseAcceleration(mousePosition);
                 }else{
                     ballsCollection[i].fallingAcceleration();
-                }
-                
+                } 
             }
-            this.repaint();
+            
+            //Pone el hilo actual en espera.
             Thread.sleep(10);
         }
     }
     
-    public Circle[] resize (String s){
-        
-        int n = Integer.parseInt(s);
-                
+    /**
+     * Método para redimensionar el array de círculos. Además sobreescribe los
+     * círculos que habia antes de su ejecución.
+     * 
+     * @param n
+     */
+    public void resizeBallsCollection (int n){       
         Circle[] c = new Circle[n];
-
         for(int i = n-1; i >= 0; i--){
             c[i] = new Circle(getSize());
         }
-        
-        return c;
-    }
-
-    public Circle[] getBallscollection() {
-        return ballsCollection;
-    }
-
-    public void setBallscollection(Circle[] ballscollection) {
-        this.ballsCollection = ballscollection;
-    }
-
-    public boolean isWalls() {
-        return walls;
-    }
-
-    public void setWalls(boolean walls) {
-        this.walls = walls;
-    }
-
-    public boolean isFollow() {
-        return follow;
-    }
-
-    public void setFollow(boolean follow) {
-        this.follow = follow;
+        this.ballsCollection = c;
     }
     
-    
-
+    /**
+     * Método para obtener la posición del ratón. Se ejecuta cuando el usuario
+     * arrastra el ratón a la vez que mantiene un botón de este.
+     * 
+     * @param mouse 
+     */
     @Override
     public void mouseDragged(MouseEvent mouse) {
         mousePosition.x = mouse.getX();
         mousePosition.y = mouse.getY();
     }
 
+    /**
+     * Método para obtener la posición del ratón. Se ejecuta cuando el usuario
+     * mueve el ratón.
+     * 
+     * @param mouse 
+     */
     @Override
     public void mouseMoved(MouseEvent mouse) {
         mousePosition.x = mouse.getX();
         mousePosition.y = mouse.getY();
     }
-    
+
+    public void setWalls(boolean walls) {
+        this.walls = walls;
+    }
+
+    public void setFollow(boolean follow) {
+        this.follow = follow;
+    }  
 }

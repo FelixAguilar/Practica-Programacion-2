@@ -2,16 +2,16 @@
  * @author Felix Lluis Aguilar Ferrer.
  * @author Adrián Bennasar Polzin.
  */
+
 package practicafinal;
 
 import exceptions.DivisionByZero;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -20,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -28,32 +30,37 @@ import javax.swing.SwingConstants;
  */
 public class Window extends JFrame{
     
+    //Atributos de la ventana.
     private CirclePanel circlePanel;
     private JTextField textField;
     
-    //Tamaño de la venta.
-        // Obtenemos herramientas necesarias para comunicarnos con el sistema 
-        //donde se ejecuta la ventana.
-        // Creamos un objeto Dimension con el tamaño de nuestra pantalla
-        Toolkit myScreen = Toolkit.getDefaultToolkit(); 
-        Dimension screenSize = myScreen.getScreenSize(); 
+    /*Tamaño de la ventana. Obtenemos herramientas necesarias para comunicarnos 
+    con el sistema donde se ejecuta la ventana. Creamos un objeto Dimension con 
+    el tamaño de nuestra pantalla.*/
+    Toolkit myScreen = Toolkit.getDefaultToolkit(); 
+    Dimension screenSize = myScreen.getScreenSize(); 
         
-        // Guardamos las constantes que se han registrado en el objeto Dimension.
-        int screenHeight = screenSize.height; 
-        int screenWidth = screenSize.width;
+    //Guardamos las constantes que se han registrado en el objeto Dimension.
+    int screenHeight = screenSize.height; 
+    int screenWidth = screenSize.width;
     
+    //Constantes del menú.
+    private final String TITLE = "Balls Simulation";
+    private final String LABEL = "# Balls";
+    private final String TEXT = "2";
+    private final String WALLS = "With Walls";
+    private final String FOLLOW = "Follow";
+    private final Font FONT = new Font("serif", Font.BOLD, 20);
     
-    public String title = "Balls Simulation"; //Titulo de la ventana.
-    public Font font = new Font("serif", Font.BOLD, 20); //Fuentes a utilizar.
-    
-    //Constructor de la ventana.
+    /**
+     * Constructor de la ventana.
+     */
     public Window(){
-        
-        this.setTitle(title);
-        this.setSize(screenWidth/2,screenHeight/2);
-        this.setLocation(screenWidth/4, screenHeight/4);
-        this.setDefaultCloseOperation(Window.EXIT_ON_CLOSE);
-        this.initContents();
+        setTitle(TITLE);
+        setSize(screenWidth/2,screenHeight/2);
+        setLocation(screenWidth/4, screenHeight/4);
+        setDefaultCloseOperation(Window.EXIT_ON_CLOSE);
+        initContents();
     }
     
     private void initContents(){
@@ -68,24 +75,24 @@ public class Window extends JFrame{
         
         //Creación de la etiqueta. 
         JLabel label = new JLabel();
-        label.setText("# Balls");
-        label.setFont(font);
+        label.setText(LABEL);
+        label.setFont(FONT);
         menu.add(label);
         
         //Creación del cuadro de texto.
         textField = new JTextField();
-        textField.setText("2"); 
+        textField.setText(TEXT); 
         textField.selectAll();
-        textField.setFont(font);
+        textField.setFont(FONT);
         textField.setHorizontalAlignment(SwingConstants.RIGHT);
         menu.add(textField);
         
         //Creación de las CheckBox.
-        JCheckBox walls = new JCheckBox("With Walls");
+        JCheckBox walls = new JCheckBox(WALLS);
         walls.setBackground(Color.LIGHT_GRAY);
         menu.add(walls);
         
-        JCheckBox follow = new JCheckBox("Follow Mouse");
+        JCheckBox follow = new JCheckBox(FOLLOW);
         follow.setBackground(Color.LIGHT_GRAY);
         menu.add(follow);
         
@@ -96,14 +103,15 @@ public class Window extends JFrame{
         sidePanel.add(menu, BorderLayout.CENTER);
         
         //Adición de componentes a la pantalla.
-        circlePanel = new CirclePanel(); //Instanciación del panel de círculos.
+        circlePanel = new CirclePanel();
         window.add(circlePanel, BorderLayout.CENTER);
         window.add(sidePanel, BorderLayout.LINE_END);
         
         //Escuchadores de eventos.
         textField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) { 
-                circlePanel.setBallscollection(circlePanel.resize(textField.getText()));
+                int n = Integer.parseInt((textField.getText()));
+                circlePanel.resizeBallsCollection(n);
             }
         });
         
@@ -121,11 +129,18 @@ public class Window extends JFrame{
         
     }
     
+    /**
+     * Método de Inicio no static.
+     * 
+     * @throws InterruptedException
+     * @throws DivisionByZero 
+     */
     public void start() throws InterruptedException, DivisionByZero{
-         circlePanel.setBallscollection(circlePanel.resize(textField.getText()));
+        int n = Integer.parseInt((textField.getText()));
+        circlePanel.resizeBallsCollection(n);
          
-         //Inicio movimiento círculos.
-         circlePanel.infiniteLoop();
+        //Inicio movimiento círculos.
+        circlePanel.infiniteLoop();
     }
     
     public static void main(String[] args)  {
