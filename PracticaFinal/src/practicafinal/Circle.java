@@ -30,7 +30,6 @@ public class Circle {
     private Vector speed;
     private Vector acceleration;
 
-    
     /**
      * Constructor. Requiere el tamaño del panel donde se representará el
      * concepto.
