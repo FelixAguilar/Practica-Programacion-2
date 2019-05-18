@@ -1,11 +1,14 @@
 /**
  * @author Felix Lluis Aguilar Ferrer.
  * @author Adrián Bennasar Polzin.
+ * 
+ * enlace video:
  */
 
 package practicafinal;
 
-import exceptions.DivisionByZero;
+import vector.DivisionByZero;
+import vector.Vector;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -94,7 +97,7 @@ public class CirclePanel extends JPanel implements MouseMotionListener {
      * 
      * @param n
      */
-    public void resizeBallsCollection (int n){       
+    public void resizeBallsCollection(int n){       
         Circle[] c = new Circle[n];
         for(int i = n-1; i >= 0; i--){
             c[i] = new Circle(getSize());

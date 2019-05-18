@@ -1,11 +1,13 @@
 /**
  * @author Felix Lluis Aguilar Ferrer.
  * @author Adrián Bennasar Polzin.
+ * 
+ * enlace video:
  */
 
 package practicafinal;
 
-import exceptions.DivisionByZero;
+import vector.DivisionByZero;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -1,11 +1,14 @@
 /**
  * @author Felix Lluis Aguilar Ferrer.
  * @author Adrián Bennasar Polzin.
+ * 
+ * enlace video:
  */
 
 package practicafinal;
 
-import exceptions.DivisionByZero;
+import vector.DivisionByZero;
+import vector.Vector;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -144,7 +147,7 @@ public class Circle {
         i = i.uni();
         i.mult(MOUSEACCELERATION);
         
-        //Se actualiza la aceleración del circulo.
+        //Se actualiza la aceleración del círculo.
         acceleration.x = i.x;
         acceleration.y = i.y;
     }
@@ -174,7 +177,7 @@ public class Circle {
     /**
      * Método de interacción sin paredes. En este caso, no hay límites que 
      * impiden al círculo salir del panel por lo que al interactuar con uno de 
-     * estos, cambiará la posicion en el eje de manera que saldrá por el borde 
+     * estos, cambiará la posición en el eje de manera que saldrá por el borde 
      * opuesto.
      * 
      * @param size 
